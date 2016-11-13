@@ -11,20 +11,26 @@ chrome.runtime.onMessage.addListener(
 );
 
 function add_travel_time_data(){
+	// There is a problem if the first url is the eventpage_6 one.
 	var location_row = document.querySelector('[id$="location-row"]')
-	console.log(location_row)
+	var id_prefix = location_row.id.split('.')[0]
 
 	var parent_node = location_row.parentNode
 
 	var travel_row = location_row.cloneNode(true);
-	travel_row.id = ':1d.travel-row'
+	travel_row.id = id_prefix + '.travel-row'
 
 	var travel_row_header = travel_row.getElementsByTagName('th')[0]
 	var travel_label = travel_row_header.getElementsByTagName('label')[0]
 	travel_label.textContent = 'Travel Time'
-	travel_label.id = ':1d.travel-label'
+	travel_label.id = location_row + '.travel-label'
 
-	// var travel_row_data = travel_row.getElementsByTagName('td')[0]
+	var travel_row_data = travel_row.getElementsByTagName('td')[0]
+	travel_row_data.innerHTML = '<div class="btn-group">' +
+								'	<button type="button" class="btn btn-primary">Apple</button>' +
+								'	<button type="button" class="btn btn-primary">Samsung</button>' +
+								'	<button type="button" class="btn btn-primary">Sony</button>' +
+								'</div>'
 
 	// parentNode.insertBefore(location_row, parentGuest.nextSibling);
 	parent_node.insertBefore(travel_row, location_row.nextSibling)
