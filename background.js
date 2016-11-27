@@ -5,6 +5,13 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 	    	var activeTab = tabs[0];
 	    	chrome.tabs.sendMessage(activeTab.id, {"message": "clicked_browser_action"});
+	    	console.log("test1");
 	    });
 	}
+};
+
+var save = document.getElementById('goog-inline-block.goog-imageless-button');
+save.addEventListener('mouseover', function(){
+	console.log("TTTTT");
 })
+)
