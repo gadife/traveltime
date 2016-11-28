@@ -5,7 +5,15 @@
   "version": "0.1",
   "background": {
     "scripts": [
-      "background.js"
+      "background.js",
+      "chrome_ex_oauthsimple.js",
+      "chrome_ex_oauth.js"
+    ]
+  },
+  "oauth2": {
+    "client_id": "595888825645-76ebrl864o096149uu3ojf41rcacdl87.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar"
     ]
   },
   "content_scripts": [
@@ -21,7 +29,11 @@
   "browser_action": {
     "default_icon": "telaviv.jpg"
   },
-  "permissions": [
-    "tabs"
+  "permissions": [ "tabs",
+  "identity", 
+  "https://docs.google.com/feeds/*",
+  "https://www.google.com/accounts/OAuthGetRequestToken",
+  "https://www.google.com/accounts/OAuthAuthorizeToken",
+  "https://www.google.com/accounts/OAuthGetAccessToken"
   ]
 }
