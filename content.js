@@ -5,13 +5,35 @@ chrome.runtime.onMessage.addListener(
 
       // This line is new!
       // chrome.runtime.sendMessage({"message": "open_new_tab", "url": firstHref});:1d.location-row
-		add_travel_time_data()
+        console.log(request.otoken)
+		add_travel_time_data(request.otoken)
     }
   }
 );
 
-function add_travel_time_data(){
+function add_travel_time_data(token){
 	// There is a problem if the first url is the eventpage_6 one.
+	loadScript('https://apis.google.com/js/api.js');
+
+	function loadScript(url){
+	  var request = new XMLHttpRequest();
+
+		request.onreadystatechange = function(){
+			if(request.readyState !== 4) {
+				return;
+			}
+
+			if(request.status !== 200){
+				return;
+			}
+
+	    eval(request.responseText);
+		};
+
+		request.open('GET', url);
+		request.send();
+	};
+
 	var location_row = document.querySelector('[id$="location-row"]')
 	var id_prefix = location_row.id.split('.')[0]
 
@@ -40,14 +62,46 @@ function add_travel_time_data(){
 	for (i=0;i<save.length;i++) {
 		console.log(save[i].textContent);
 		if (save[i].textContent.includes("Save")) {
-			console.log("got it");
+			console.log("got it ", token);
 			var save_element = save[i];
 			break;
 		}
 	}
 	// Get event date and start time
 	save_element.addEventListener('mouseover', function(){
-		console.log(document.getElementsByClassName("text dr-time")[0].value);
-		console.log(document.getElementsByClassName("text dr-date")[0].value);
+		var start_time = document.getElementsByClassName("text dr-time")[0].value;
+		var start_date = document.getElementsByClassName("text dr-date")[0].value;
 	});
+
+	//Create event test
+	var event = {
+	  'summary': 'Test Event',
+	  'location': '800 Howard St., San Francisco, CA 94103',
+	  'description': 'Just testing',
+	  'start': {
+	    'dateTime': '2016-12-02T09:00:00-07:00',
+	    'timeZone': 'America/Los_Angeles'
+	  },
+	  'end': {
+	    'dateTime': '2016-12-02T17:00:00-07:00',
+	    'timeZone': 'America/Los_Angeles'
+	  },
+	  'recurrence': [
+	    'RRULE:FREQ=DAILY;COUNT=2'
+	  ],
+	  'reminders': {
+	    'useDefault': false,
+	    'overrides': [
+	      {'method': 'popup', 'minutes': 10}
+	    ]
+  	   }
+	};
+
+	//var event2 = new Blob({'summary': 'Test Event'},{'location': '800 Howard St., San Francisco, CA 94103'},{'description': 'Just testing'},{'start':{'dateTime': '2016-12-02T17:00:00-07:00'},{'timeZone': 'America/Los_Angeles'}},{'end':{'dateTime': '2016-12-02T17:00:00-07:00'},{'timeZone': 'America/Los_Angeles'}}); 
+
+	var xhr = new XMLHttpRequest();
+	//xhr.open('POST','https://www.googleapis.com/calendar/v3/calendars/gadi.fe@gmail.com/events');
+	xhr.open('POST','https://www.googleapis.com/calendar/v3/calendars/gadi.fe@gmail.com/events');
+	xhr.setRequestHeader('Authorization','Bearer ' + token);
+	xhr.send(event);
 }

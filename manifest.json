@@ -7,6 +7,7 @@
     "scripts": [
       "background.js",
       "chrome_ex_oauthsimple.js",
+      "onload.js",
       "chrome_ex_oauth.js"
     ]
   },
@@ -16,13 +17,15 @@
       "https://www.googleapis.com/auth/calendar"
     ]
   },
+  "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {
       "matches": [
         "<all_urls>"
       ],
       "js": [
-        "content.js"
+        "content.js",
+        "api.js"
       ]
     }
   ],
