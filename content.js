@@ -75,33 +75,22 @@ function add_travel_time_data(token){
 
 	//Create event test
 	var event = {
-	  'summary': 'Test Event',
-	  'location': '800 Howard St., San Francisco, CA 94103',
-	  'description': 'Just testing',
-	  'start': {
-	    'dateTime': '2016-12-02T09:00:00-07:00',
-	    'timeZone': 'America/Los_Angeles'
-	  },
-	  'end': {
-	    'dateTime': '2016-12-02T17:00:00-07:00',
-	    'timeZone': 'America/Los_Angeles'
-	  },
-	  'recurrence': [
-	    'RRULE:FREQ=DAILY;COUNT=2'
-	  ],
-	  'reminders': {
-	    'useDefault': false,
-	    'overrides': [
-	      {'method': 'popup', 'minutes': 10}
-	    ]
-  	   }
+	  	start: {
+	    	dateTime: "2016-12-02T10:00:00",
+	    	timeZone: "America/Los_Angeles"
+	  	},
+	  	end: {
+	    	dateTime: "2016-12-02T11:00:00",
+	    	timeZone: "America/Los_Angeles"
+	  	}
 	};
 
-	//var event2 = new Blob({'summary': 'Test Event'},{'location': '800 Howard St., San Francisco, CA 94103'},{'description': 'Just testing'},{'start':{'dateTime': '2016-12-02T17:00:00-07:00'},{'timeZone': 'America/Los_Angeles'}},{'end':{'dateTime': '2016-12-02T17:00:00-07:00'},{'timeZone': 'America/Los_Angeles'}}); 
+	var jsonStr = JSON.stringify(event);
 
 	var xhr = new XMLHttpRequest();
 	//xhr.open('POST','https://www.googleapis.com/calendar/v3/calendars/gadi.fe@gmail.com/events');
 	xhr.open('POST','https://www.googleapis.com/calendar/v3/calendars/gadi.fe@gmail.com/events');
+	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.setRequestHeader('Authorization','Bearer ' + token);
-	xhr.send(event);
+	xhr.send(jsonStr);
 }
